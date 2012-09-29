@@ -1,0 +1,7 @@
+{
+    "name": "mtymek/codebasehq-sdk",
+    "version": "1.0.0alpha",
+    "autoload": {
+        "psr-0": { "CodebaseHq": "src/" }
+    }
+}

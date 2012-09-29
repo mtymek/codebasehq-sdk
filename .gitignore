@@ -1,0 +1,6 @@
+.directory
+.idea
+.project
+composer.lock
+nbproject
+vendor
