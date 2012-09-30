@@ -1,5 +1,6 @@
 {
     "name": "mtymek/codebasehq-sdk",
+    "description": "PHP SDK for CodebaseHQ API",
     "version": "1.0.0alpha",
     "autoload": {
         "psr-0": { "CodebaseHq": "src/" }
