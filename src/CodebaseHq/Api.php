@@ -156,6 +156,13 @@ class Api
         return $ret;
     }
 
+    public function postTicketNote($projectName, $ticketId, Entity\TicketNote $note)
+    {
+        $hydrator = new Hydrator\TicketNote();
+        $xml = $hydrator->extractXml($note);
+        $this->api("/$projectName/tickets/$ticketId/notes", 'POST', $xml);
+    }
+
     /**
      * Fetch and return ticket by ID
      *
