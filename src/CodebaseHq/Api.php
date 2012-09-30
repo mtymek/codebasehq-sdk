@@ -152,7 +152,11 @@ class Api
     public function findTickets($query = '')
     {
         $project = $this->getProject();
-        $result = $this->api("/$project/tickets?query=" . urlencode($query));
+        try {
+            $result = $this->api("/$project/tickets?query=" . urlencode($query));
+        } catch (Exception\RecordNotFoundException $e) {
+            return array();
+        }
         $xml = new SimpleXMLElement($result);
         $hydrator = new Hydrator\Ticket();
         $ret = array();
