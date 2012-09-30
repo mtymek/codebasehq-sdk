@@ -2,5 +2,5 @@
 
 namespace CodebaseHq\Exception;
 
-class ConflictException extends \RuntimeException implements ExceptionInterface
+class ConflictException extends RuntimeException
 {}

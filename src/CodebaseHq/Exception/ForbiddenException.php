@@ -2,5 +2,5 @@
 
 namespace CodebaseHq\Exception;
 
-class ForbiddenException extends \RuntimeException implements ExceptionInterface
+class ForbiddenException extends RuntimeException
 {}

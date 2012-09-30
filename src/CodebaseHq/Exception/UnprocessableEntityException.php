@@ -2,5 +2,5 @@
 
 namespace CodebaseHq\Exception;
 
-class UnprocessableEntityException extends \RuntimeException implements ExceptionInterface
+class UnprocessableEntityException extends RuntimeException
 {}

@@ -2,5 +2,5 @@
 
 namespace CodebaseHq\Exception;
 
-class RecordNotFoundException extends \RuntimeException implements ExceptionInterface
+class RecordNotFoundException extends RuntimeException
 {}

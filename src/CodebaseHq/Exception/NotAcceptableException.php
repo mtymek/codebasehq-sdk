@@ -2,5 +2,5 @@
 
 namespace CodebaseHq\Exception;
 
-class NotAcceptableException extends \RuntimeException implements ExceptionInterface
+class NotAcceptableException extends RuntimeException
 {}
