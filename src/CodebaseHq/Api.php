@@ -135,6 +135,13 @@ class Api
         return $xml;
     }
 
+    /**
+     * Find all tickets matching given query
+     *
+     * @param $projectName
+     * @param string $query
+     * @return Entity\Ticket[]
+     */
     public function findTickets($projectName, $query = '')
     {
         $result = $this->api("/$projectName/tickets?query=" . urlencode($query));
@@ -147,6 +154,23 @@ class Api
             $ret[] = $ticket;
         }
         return $ret;
+    }
+
+    /**
+     * Fetch and return ticket by ID
+     *
+     * @param $projectName
+     * @param $ticketId
+     * @return Entity\Ticket
+     */
+    public function getTicket($projectName, $ticketId)
+    {
+        $result = $this->api("/$projectName/tickets/$ticketId");
+        $xml = new SimpleXMLElement($result);
+        $hydrator = new Hydrator\Ticket();
+        $ticket = new Entity\Ticket();
+        $hydrator->hydrateXml($xml, $ticket);
+        return $ticket;
     }
 
     /**

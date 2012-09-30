@@ -196,4 +196,23 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, $tickets[1]->getId());
         $this->assertEquals('Bar', $tickets[1]->getSummary());
     }
+
+    public function testGetTicket()
+    {
+    $mock = $this->getMock('CodebaseHq\Tranport\AbstractTransport', array('call'));
+        $mock->expects($this->once())->method('call')
+            ->with('a/u', 'k', '/project/tickets/124', 'GET')
+            ->will($this->returnValue(array(
+                'code' => 200,
+                'data' => '<ticket><ticket-id type="integer">124</ticket-id><summary>Foo</summary></ticket>'
+            )));
+        $api = new Api('a', 'u', 'k');
+        $api->setTransport($mock);
+
+        $ticket = $api->getTicket('project', 124);
+
+        $this->assertInstanceOf('CodebaseHq\Entity\Ticket', $ticket);
+        $this->assertEquals(124, $ticket->getId());
+        $this->assertEquals('Foo', $ticket->getSummary());
+    }
 }
