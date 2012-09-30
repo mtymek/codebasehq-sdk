@@ -38,6 +38,9 @@ class Curl extends AbstractTransport
         }
 
         $ret = curl_exec($curl);
-        return $ret;
+        return array(
+            'code' => curl_getinfo($curl, CURLINFO_HTTP_CODE),
+            'data' => $ret
+        );
     }
 }
