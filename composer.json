@@ -1,11 +1,12 @@
 {
     "name": "mtymek/codebasehq-sdk",
+    "type": "library",
     "description": "PHP SDK for CodebaseHQ API",
-    "keywords": ["codebasehq", "codebase", "sdk"],
+    "keywords": ["api", "codebase", "codebasehq", "sdk"],
     "authods": [
         {
             "name": "Mateusz Tymek",
-            "homepage": "mtymek@gmail.com"
+            "email": "mtymek@gmail.com"
         }
     ],
     "version": "1.0.0alpha",
