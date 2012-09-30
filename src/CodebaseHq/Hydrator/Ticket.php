@@ -4,6 +4,10 @@ namespace CodebaseHq\Hydrator;
 
 use CodebaseHq\Entity;
 
+use CodebaseHq\Hydrator\Category as CategoryHydrator;
+use CodebaseHq\Hydrator\Priority as PriorityHydrator;
+use CodebaseHq\Hydrator\Status as StatusHydrator;
+
 use DateTime;
 use SimpleXMLElement;
 
@@ -22,10 +26,30 @@ class Ticket
         $object->setReporter((string)$xml->{'reporter'});
         $object->setAssigneeId((int)$xml->{'assignee-id'});
         $object->setAssignee((string)$xml->{'assignee'});
-//        $object->setCategory((string)$xml->{'category'});
         $object->setUpdatedAt(new DateTime((string)$xml->{'updated-at'}));
         $object->setCreatedAt(new DateTime((string)$xml->{'created-at'}));
         $object->setProjectId((int)$xml->{'project-id'});
+
+        if ($xml->category) {
+            $categoryHydrator = new CategoryHydrator();
+            $category = new Entity\Category();
+            $categoryHydrator->hydrateXml($xml->category, $category);
+            $object->setCategory($category);
+        }
+
+        if ($xml->status) {
+            $statusHydrator = new StatusHydrator();
+            $category = new Entity\Status();
+            $statusHydrator->hydrateXml($xml->status, $category);
+            $object->setStatus($category);
+        }
+
+        if ($xml->priority) {
+            $statusHydrator = new PriorityHydrator();
+            $category = new Entity\Priority();
+            $statusHydrator->hydrateXml($xml->priority, $category);
+            $object->setPriority($category);
+        }
     }
 
 }
