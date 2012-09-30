@@ -13,7 +13,7 @@ class Curl extends AbstractTransport
      * @param null $data
      * @return mixed
      */
-    public function call($endpoint, $method = 'GET', $data = null)
+    public function call($username, $apiKey, $endpoint, $method = 'GET', $data = null)
     {
         // TODO: Implement call() method.
     }

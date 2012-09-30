@@ -13,6 +13,6 @@ abstract class AbstractTransport
      * @param null $data
      * @return mixed
      */
-    abstract public function call($endpoint, $method = 'GET', $data = null);
+    abstract public function call($username, $apiKey, $endpoint, $method = 'GET', $data = null);
 
 }

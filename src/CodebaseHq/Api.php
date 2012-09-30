@@ -28,9 +28,42 @@ class Api
      */
     protected $transport;
 
+    /**
+     * Class constructor
+     *
+     * @param string|null $account
+     * @param string|null $username
+     * @param string|null $apiKey
+     */
+    public function __construct($account = null, $username = null, $apiKey = null)
+    {
+        if ($account) {
+            $this->setAccount($account);
+        }
+        if ($username) {
+            $this->setUsername($username);
+        }
+        if ($apiKey) {
+            $this->setApiKey($apiKey);
+        }
+    }
+
     public function api($endpoint, $method = 'GET', $data = null)
     {
-        $result = $this->getTransport()->call($endpoint, $method, $data);
+        $account = $this->getAccount();
+        if (!$account) {
+            throw new Exception\RuntimeException("Account is not provided.");
+        }
+        $username = $this->getUsername();
+        if (!$username) {
+            throw new Exception\RuntimeException("Username is not provided.");
+        }
+        $apiKey = $this->getApiKey();
+        if (!$apiKey) {
+            throw new Exception\RuntimeException("API key is not provided.");
+        }
+
+        $result = $this->getTransport()->call($account . '/' . $username, $apiKey, $endpoint, $method, $data);
 
         if ($result['code'] == 403) {
             throw new Exception\ForbiddenException("Current user does not have access to requested resource");
