@@ -187,7 +187,8 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         $api = new Api('a', 'u', 'k');
         $api->setTransport($mock);
 
-        $tickets = $api->findTickets('project');
+        $api->setProject('project');
+        $tickets = $api->findTickets();
 
         $this->assertInstanceOf('CodebaseHq\Entity\Ticket', $tickets[0]);
         $this->assertEquals(1, $tickets[0]->getId());
@@ -209,7 +210,8 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         $api = new Api('a', 'u', 'k');
         $api->setTransport($mock);
 
-        $ticket = $api->getTicket('project', 124);
+        $api->setProject('project');
+        $ticket = $api->getTicket(124);
 
         $this->assertInstanceOf('CodebaseHq\Entity\Ticket', $ticket);
         $this->assertEquals(124, $ticket->getId());

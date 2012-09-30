@@ -26,6 +26,13 @@ class Api
     protected $apiKey;
 
     /**
+     * Name of current project
+     *
+     * @var string
+     */
+    protected $project;
+
+    /**
      * @var AbstractTransport
      */
     protected $transport;
@@ -142,9 +149,10 @@ class Api
      * @param string $query
      * @return Entity\Ticket[]
      */
-    public function findTickets($projectName, $query = '')
+    public function findTickets($query = '')
     {
-        $result = $this->api("/$projectName/tickets?query=" . urlencode($query));
+        $project = $this->getProject();
+        $result = $this->api("/$project/tickets?query=" . urlencode($query));
         $xml = new SimpleXMLElement($result);
         $hydrator = new Hydrator\Ticket();
         $ret = array();
@@ -156,11 +164,12 @@ class Api
         return $ret;
     }
 
-    public function postTicketNote($projectName, $ticketId, Entity\TicketNote $note)
+    public function postTicketNote($ticketId, Entity\TicketNote $note)
     {
+        $project = $this->getProject();
         $hydrator = new Hydrator\TicketNote();
         $xml = $hydrator->extractXml($note);
-        $this->api("/$projectName/tickets/$ticketId/notes", 'POST', $xml);
+        $this->api("/$project/tickets/$ticketId/notes", 'POST', $xml);
     }
 
     /**
@@ -170,9 +179,10 @@ class Api
      * @param $ticketId
      * @return Entity\Ticket
      */
-    public function getTicket($projectName, $ticketId)
+    public function getTicket($ticketId)
     {
-        $result = $this->api("/$projectName/tickets/$ticketId");
+        $project = $this->getProject();
+        $result = $this->api("/$project/tickets/$ticketId");
         $xml = new SimpleXMLElement($result);
         $hydrator = new Hydrator\Ticket();
         $ticket = new Entity\Ticket();
@@ -255,5 +265,22 @@ class Api
         return $this->transport;
     }
 
+    /**
+     * @param string $projectName
+     * @return Api provides fluent interface
+     */
+    public function setProject($projectName)
+    {
+        $this->project = $projectName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
 
 }
