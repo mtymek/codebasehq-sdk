@@ -172,4 +172,28 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         ));
         $this->assertEquals('<time-session><id>1234</id><summary>Lorem Ipsum</summary></time-session>', $xml);
     }
+
+    public function testFindTickets()
+    {
+        $mock = $this->getMock('CodebaseHq\Tranport\AbstractTransport', array('call'));
+        $mock->expects($this->once())->method('call')
+            ->with('a/u', 'k', '/project/tickets?query=', 'GET')
+            ->will($this->returnValue(array(
+                'code' => 200,
+                'data' =>
+                    '<tickets><ticket><ticket-id type="integer">1</ticket-id><summary>Foo</summary></ticket>
+                    <ticket><ticket-id type="integer">2</ticket-id><summary>Bar</summary></ticket></tickets>'
+            )));
+        $api = new Api('a', 'u', 'k');
+        $api->setTransport($mock);
+
+        $tickets = $api->findTickets('project');
+
+        $this->assertInstanceOf('CodebaseHq\Entity\Ticket', $tickets[0]);
+        $this->assertEquals(1, $tickets[0]->getId());
+        $this->assertEquals('Foo', $tickets[0]->getSummary());
+        $this->assertInstanceOf('CodebaseHq\Entity\Ticket', $tickets[1]);
+        $this->assertEquals(2, $tickets[1]->getId());
+        $this->assertEquals('Bar', $tickets[1]->getSummary());
+    }
 }

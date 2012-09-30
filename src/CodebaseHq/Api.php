@@ -5,6 +5,8 @@ namespace CodebaseHq;
 use CodebaseHq\Transport\AbstractTransport;
 use CodebaseHq\Exception;
 
+use SimpleXMLElement;
+
 class Api
 {
 
@@ -131,6 +133,20 @@ class Api
         }
         $xml .= "</$recordName>";
         return $xml;
+    }
+
+    public function findTickets($projectName, $query = '')
+    {
+        $result = $this->api("/$projectName/tickets?query=" . urlencode($query));
+        $xml = new SimpleXMLElement($result);
+        $hydrator = new Hydrator\Ticket();
+        $ret = array();
+        foreach ($xml->ticket as $t) {
+            $ticket = new Entity\Ticket();
+            $hydrator->hydrateXml($t, $ticket);
+            $ret[] = $ticket;
+        }
+        return $ret;
     }
 
     /**
