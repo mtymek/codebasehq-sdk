@@ -162,4 +162,14 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         $api->api('/project/time_sessions', 'POST', '<time-session><invalid /></time-session>');
     }
 
+    public function testBuildXmlConvertsArrayToXml()
+    {
+        $api = new Api();
+
+        $xml = $api->buildXml('time-session', array(
+            'id' => 1234,
+            'summary' => 'Lorem Ipsum'
+        ));
+        $this->assertEquals('<time-session><id>1234</id><summary>Lorem Ipsum</summary></time-session>', $xml);
+    }
 }

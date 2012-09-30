@@ -31,6 +31,8 @@ class Api
     /**
      * Class constructor
      *
+     * Allows setting credentials
+     *
      * @param string|null $account
      * @param string|null $username
      * @param string|null $apiKey
@@ -48,6 +50,20 @@ class Api
         }
     }
 
+    /**
+     * Make request to CodebaseHQ API
+     *
+     * @param $endpoint
+     * @param string $method
+     * @param null $data
+     * @return mixed
+     * @throws \RuntimeException
+     * @throws Exception\NotAcceptableException
+     * @throws Exception\UnprocessableEntityException
+     * @throws Exception\ForbiddenException
+     * @throws Exception\RuntimeException
+     * @throws Exception\RecordNotFoundException
+     */
     public function api($endpoint, $method = 'GET', $data = null)
     {
         $account = $this->getAccount();
@@ -102,6 +118,19 @@ class Api
 
         }
         throw new \RuntimeException("Unexpected response code ($result[code]) for method $method.");
+    }
+
+    /**
+     * Helper method that converts PHP array into XML that can be sent to API
+     */
+    public function buildXml($recordName, $data)
+    {
+        $xml = "<$recordName>";
+        foreach ($data as $key => $value) {
+            $xml .= "<$key>$value</$key>";
+        }
+        $xml .= "</$recordName>";
+        return $xml;
     }
 
     /**
