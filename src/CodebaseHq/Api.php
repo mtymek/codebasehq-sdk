@@ -2,8 +2,10 @@
 
 namespace CodebaseHq;
 
-use CodebaseHq\Transport\AbstractTransport;
 use CodebaseHq\Exception;
+use CodebaseHq\Repository\Ticket as TicketRepository;
+use CodebaseHq\Repository\TicketNote as TicketNoteRepository;
+use CodebaseHq\Transport\AbstractTransport;
 
 use SimpleXMLElement;
 
@@ -36,6 +38,16 @@ class Api
      * @var AbstractTransport
      */
     protected $transport;
+
+    /**
+     * @var TicketRepository
+     */
+    protected $ticketRepository;
+
+    /**
+     * @var TicketNoteRepository
+     */
+    protected $ticketNoteRepository;
 
     /**
      * Class constructor
@@ -143,58 +155,6 @@ class Api
     }
 
     /**
-     * Find all tickets matching given query
-     *
-     * @param $projectName
-     * @param string $query
-     * @return Entity\Ticket[]
-     */
-    public function findTickets($query = '')
-    {
-        $project = $this->getProject();
-        try {
-            $result = $this->api("/$project/tickets?query=" . urlencode($query));
-        } catch (Exception\RecordNotFoundException $e) {
-            return array();
-        }
-        $xml = new SimpleXMLElement($result);
-        $hydrator = new Hydrator\Ticket();
-        $ret = array();
-        foreach ($xml->ticket as $t) {
-            $ticket = new Entity\Ticket();
-            $hydrator->hydrateXml($t, $ticket);
-            $ret[] = $ticket;
-        }
-        return $ret;
-    }
-
-    public function postTicketNote($ticketId, Entity\TicketNote $note)
-    {
-        $project = $this->getProject();
-        $hydrator = new Hydrator\TicketNote();
-        $xml = $hydrator->extractXml($note);
-        $this->api("/$project/tickets/$ticketId/notes", 'POST', $xml);
-    }
-
-    /**
-     * Fetch and return ticket by ID
-     *
-     * @param $projectName
-     * @param $ticketId
-     * @return Entity\Ticket
-     */
-    public function getTicket($ticketId)
-    {
-        $project = $this->getProject();
-        $result = $this->api("/$project/tickets/$ticketId");
-        $xml = new SimpleXMLElement($result);
-        $hydrator = new Hydrator\Ticket();
-        $ticket = new Entity\Ticket();
-        $hydrator->hydrateXml($xml, $ticket);
-        return $ticket;
-    }
-
-    /**
      * @param string $account
      * @return Api provides fluent interface
      */
@@ -285,6 +245,30 @@ class Api
     public function getProject()
     {
         return $this->project;
+    }
+
+    // Repository accessors
+
+    /**
+     * @return \CodebaseHq\Repository\TicketNote
+     */
+    public function ticketNotes()
+    {
+        if (null === $this->ticketNoteRepository) {
+            $this->ticketNoteRepository = new TicketNoteRepository($this);
+        }
+        return $this->ticketNoteRepository;
+    }
+
+    /**
+     * @return \CodebaseHq\Repository\Ticket
+     */
+    public function tickets()
+    {
+        if (null === $this->ticketRepository) {
+            $this->ticketRepository = new TicketRepository($this);
+        }
+        return $this->ticketRepository;
     }
 
 }
