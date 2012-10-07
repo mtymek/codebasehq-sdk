@@ -27,11 +27,5 @@ Example:
 
 Example:
 
-    use CodebaseHq\Entity\TicketNote;
-
-    $note = new TicketNote();
-    $note->setContent('Lorem Ipsum');
-
     $ticketId = 123;
-
-    $client->ticketNotes()->create($ticketId, $note);
+    $client->ticketNotes()->create($ticketId, 'Note: this will be fixed next month');

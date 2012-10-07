@@ -4,6 +4,8 @@ namespace CodebaseHq\Hydrator;
 
 use CodebaseHq\Entity;
 
+use SimpleXMLElement;
+
 class TicketNote
 {
 
@@ -23,6 +25,12 @@ class TicketNote
         $xml .= "</changes>\n</ticket-note>";
         return $xml;
 
+    }
+
+    public function hydrateXml(SimpleXMLElement $xml, Entity\TicketNote $object)
+    {
+        $object->setId((int)$xml->id);
+        $object->setContent((string)$xml->content);
     }
 
 }

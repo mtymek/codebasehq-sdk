@@ -12,7 +12,10 @@ class Ticket extends BaseRepository
 {
 
     /**
-     * Find tickets
+     * Find tickets matching given query.
+     *
+     * Query is the same string that you can put in Codebase HQ search form,
+     * Example query: "assignee:will status:closed".
      *
      * @param string $query
      * @return TicketEntity[]
@@ -36,6 +39,12 @@ class Ticket extends BaseRepository
         return $ret;
     }
 
+    /**
+     * Find ticket by its ID
+     *
+     * @param $id
+     * @return \CodebaseHq\Entity\Ticket
+     */
     public function findOneById($id)
     {
         $project = $this->api->getProject();
@@ -44,6 +53,25 @@ class Ticket extends BaseRepository
         $hydrator = new TicketHydrator();
         $ticket = new TicketEntity();
         $hydrator->hydrateXml($xml, $ticket);
+        return $ticket;
+    }
+
+    /**
+     * Create new ticket
+     *
+     * @param $summary
+     * @param string $description
+     * @return \CodebaseHq\Entity\Ticket
+     */
+    public function create($summary, $description='')
+    {
+        $project = $this->api->getProject();
+        $xml =
+"<ticket><summary>$summary</summary><description>$description</description></ticket>";
+        $xmlElement = new SimpleXMLElement($this->api->api("/$project/tickets", 'POST', $xml));
+        $hydrator = new TicketHydrator();
+        $ticket = new TicketEntity();
+        $hydrator->hydrateXml($xmlElement, $ticket);
         return $ticket;
     }
 
