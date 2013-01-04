@@ -85,6 +85,11 @@ class Ticket
      * @var int
      */
     protected $projectId;
+	
+	/**
+     * @var string
+     */
+    protected $tags;
 
     /**
      * @param string $assignee
@@ -329,13 +334,31 @@ class Ticket
         $this->summary = $summary;
         return $this;
     }
-
-    /**
+	
+	/**
      * @return string
      */
     public function getSummary()
     {
         return $this->summary;
+    }
+	
+	 /**
+     * @param string $tags
+     * @return Ticket provides fluent interface
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 
     /**
