@@ -19,6 +19,11 @@ class TicketNote
      * @var string
      */
     protected $timeAdded;
+	
+	/**
+     * @var string
+     */
+    protected $timeUpdated;
 
     /**
      * @var array
@@ -29,6 +34,13 @@ class TicketNote
      * @var string
      */
     protected $summary;
+	
+	/**
+     * @var string
+     */
+    protected $userId;
+	
+	
 
     /**
      * @param int $assigneeId
@@ -119,6 +131,24 @@ class TicketNote
     {
         return $this->timeAdded;
     }
+	
+	/**
+     * @param string $timeUpdated
+     * @return TicketNote provides fluent interface
+     */
+    public function setTimeUpdated($timeUpdated)
+    {
+        $this->timeUpdated = $timeUpdated;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimeUpdated()
+    {
+        return $this->timeUpdated;
+    }
 
     /**
      * @param array $changes
@@ -136,6 +166,24 @@ class TicketNote
     public function getChanges()
     {
         return $this->changes;
+    }
+	
+	/**
+     * @param array $userId
+     * @return TicketNote provides fluent interface
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 
 

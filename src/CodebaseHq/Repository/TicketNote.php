@@ -11,7 +11,55 @@ use SimpleXMLElement;
 
 class TicketNote extends BaseRepository
 {
+	
+	/**
+     * Find notes matching given ticket ID.
+     *
+     *
+     * @param int $ticketId
+     * @return TicketNoteEntity[]
+     */
 
+    public function find($ticketId)
+    {
+        $project = $this->api->getProject();
+
+        try {
+            $result = $this->api->api("/$project/tickets/$ticketId/notes");
+        } catch (Exception\RecordNotFoundException $e) {
+            return array();
+        }
+
+        $xml = new SimpleXMLElement($result);
+        $hydrator = new TicketNoteHydrator();
+        $ret = array();
+
+        foreach ($xml as $t) {
+            $ticketNote = new TicketNoteEntity();
+            $hydrator->hydrateXml($t, $ticketNote);
+            $ret[] = $ticketNote;
+        }
+		
+        return $ret;
+    }
+	
+	/**
+     * Find ticket-note by its ID
+     *
+     * @param $id
+     * @return \CodebaseHq\Entity\TicketNote
+     */
+    public function findOneById($ticketId, $ticketNoteId)
+    {
+        $project = $this->api->getProject();
+        $result = $this->api->api("/$project/tickets/$ticketId/notes/$ticketNoteId");
+        $xml = new SimpleXMLElement($result);
+        $hydrator = new TicketNoteHydrator();
+        $ticketNote = new TicketNoteEntity();
+        $hydrator->hydrateXml($xml, $ticketNote);
+        return $ticketNote;
+    }
+	
     /**
      * @param int|TicketEntity $ticket
      * @param string $content
