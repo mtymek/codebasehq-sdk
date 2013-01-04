@@ -33,7 +33,7 @@ class TicketNote
         $object->setContent((string)$xml->content);
 		$object->setTimeAdded(new DateTime($xml->{'time-added'}));
 		$object->setTimeUpdated(new DateTime($xml->{'time-updated'}));
-		$object->setUserId((string)$xml->{'user-id'});
+		$object->setUserId((int)$xml->{'user-id'});
     }
 
 }

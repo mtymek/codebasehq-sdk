@@ -36,7 +36,7 @@ class TicketNote
     protected $summary;
 	
 	/**
-     * @var string
+     * @var int
      */
     protected $userId;
 	
@@ -169,7 +169,7 @@ class TicketNote
     }
 	
 	/**
-     * @param array $userId
+     * @param int $userId
      * @return TicketNote provides fluent interface
      */
     public function setUserId($userId)
@@ -179,7 +179,7 @@ class TicketNote
     }
 
     /**
-     * @return array
+     * @return int
      */
     public function getUserId()
     {
