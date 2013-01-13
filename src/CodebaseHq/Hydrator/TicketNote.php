@@ -3,8 +3,8 @@
 namespace CodebaseHq\Hydrator;
 
 use CodebaseHq\Entity;
-
 use SimpleXMLElement;
+use DateTime;
 
 class TicketNote
 {
@@ -31,6 +31,10 @@ class TicketNote
     {
         $object->setId((int)$xml->id);
         $object->setContent((string)$xml->content);
+		$object->setTimeAdded(new DateTime((string)$xml->{'created-at'}));
+		$object->setTimeUpdated(new DateTime((string)$xml->{'updated-at'}));
+		$object->setUserId((int)$xml->{'user-id'});
+		$object->setChanges($xml->{'updates'});
     }
 
 }

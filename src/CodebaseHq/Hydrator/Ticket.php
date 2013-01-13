@@ -29,7 +29,8 @@ class Ticket
         $object->setUpdatedAt(new DateTime((string)$xml->{'updated-at'}));
         $object->setCreatedAt(new DateTime((string)$xml->{'created-at'}));
         $object->setProjectId((int)$xml->{'project-id'});
-
+		$object->setTags((string)$xml->{'tags'});
+		
         if ($xml->category) {
             $categoryHydrator = new CategoryHydrator();
             $category = new Entity\Category();
