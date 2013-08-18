@@ -13,7 +13,7 @@ class TicketTest extends \PHPUnit_Framework_TestCase
         $mock->expects($this->once())->method('getProject')
             ->will($this->returnValue('project'));
         $mock->expects($this->once())->method('api')
-            ->with('/project/tickets?query=', 'GET')
+            ->with('/project/tickets?query=&page=1', 'GET')
             ->will($this->returnValue(
                     '<tickets><ticket><ticket-id type="integer">1</ticket-id><summary>Foo</summary></ticket>
                     <ticket><ticket-id type="integer">2</ticket-id><summary>Bar</summary></ticket></tickets>'

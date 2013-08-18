@@ -11,7 +11,7 @@ use SimpleXMLElement;
 
 class TicketNote extends BaseRepository
 {
-	
+
 	/**
      * Find notes matching given ticket ID.
      *
@@ -39,10 +39,10 @@ class TicketNote extends BaseRepository
             $hydrator->hydrateXml($t, $ticketNote);
             $ret[] = $ticketNote;
         }
-		
+
         return $ret;
     }
-	
+
 	/**
      * Find ticket-note by its ID
      *
@@ -59,7 +59,7 @@ class TicketNote extends BaseRepository
         $hydrator->hydrateXml($xml, $ticketNote);
         return $ticketNote;
     }
-	
+
     /**
      * @param int|TicketEntity $ticket
      * @param string $content

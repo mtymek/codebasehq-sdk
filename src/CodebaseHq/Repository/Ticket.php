@@ -24,7 +24,11 @@ class Ticket extends BaseRepository
     {
         $project = $this->api->getProject();
         try {
-            $result = $this->api->api("/$project/tickets?query=" . urlencode($query) . "&page=$page");
+            $params = array(
+                'query' => $query,
+                'page' => $page
+            );
+            $result = $this->api->api("/$project/tickets?" . http_build_query($params));
         } catch (Exception\RecordNotFoundException $e) {
             return array();
         }
