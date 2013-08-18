@@ -20,11 +20,11 @@ class Ticket extends BaseRepository
      * @param string $query
      * @return TicketEntity[]
      */
-    public function find($query = '')
+    public function find($query = '', $page = 1)
     {
         $project = $this->api->getProject();
         try {
-            $result = $this->api->api("/$project/tickets?query=" . urlencode($query));
+            $result = $this->api->api("/$project/tickets?query=" . urlencode($query) . "&page=$page");
         } catch (Exception\RecordNotFoundException $e) {
             return array();
         }
